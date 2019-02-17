@@ -18,3 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get("posts/{post}/duplicate", ['as' => 'posts.duplicate', 'uses' => 'PostController@duplicate']);
+Route::resource("posts","PostController");
+Route::get("tags/{tag}/duplicate", ['as' => 'tags.duplicate', 'uses' => 'TagController@duplicate']);
+Route::resource("tags","TagController");
+Route::get("categories/{category}/duplicate", ['as' => 'categories.duplicate', 'uses' => 'CategoryController@duplicate']);
+Route::resource("categories","CategoryController");
+Route::get("comments/{comment}/duplicate", ['as' => 'comments.duplicate', 'uses' => 'CommentController@duplicate']);
+Route::resource("comments","CommentController");
