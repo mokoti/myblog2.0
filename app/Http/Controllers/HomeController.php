@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * homeに接続した際にAuthモデルを使用してコントローラを生成
      *
      * @return void
      */
@@ -17,7 +17,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * アプリケーションのダッシュボードを表示する
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
