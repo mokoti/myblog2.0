@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
+    // 論理削除をする
     use SoftDeletes;
 
-
-	// Mass Assignment
+	// Tagテーブルで使用する変数
 	protected $fillable = ['name',];
     protected $dates = ['deleted_at'];
 
-
-	// Validate Rule
+	// バリデーション
     public static function getValidateRule(Tag $tag=null){
         if($tag){
             $ignore_unique = $tag->id;
@@ -25,22 +24,16 @@ class Tag extends Model
         }
         $table_name = 'tags';
         $validation_rule = [
-
             'model.name' => 'required|unique:'.$table_name.',email,'.$ignore_unique.',id,deleted_at,NOT_NULL,deleted_at,NOT_NULL',
-
         	'pivots.post.*.priority' => 'integer|nullable',
-
         ];
+        // ??
         if($tag){
-
         }
         return $validation_rule;
     }
 
-
-
-
-
+    // ポストモデルを取得
 	public function posts() {
 		return $this->belongsToMany('App\Post')
 		->withPivot('priority')
@@ -48,7 +41,7 @@ class Tag extends Model
 		->withTimestamps();
 	}
 
-
+    // listとしてポストデータを取得
 	public static function getLists() {
 		$lists = [];
 		$lists['Post'] = Post::pluck( 'title' ,'id' );
