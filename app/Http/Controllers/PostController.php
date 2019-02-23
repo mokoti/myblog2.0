@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * リソースリストを表示
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,7 +17,7 @@ class PostController extends Controller
     {
 		$posts = new Post;
 
-        // (1)filltering
+        // (1)フィルタリング
         if( is_array($request->input('q')) ){
             
             foreach( $request->input('q') as $key => $value ){
@@ -55,12 +55,9 @@ class PostController extends Controller
         }
         $posts = $posts->get();
 
-
-
-        // (2)sort
+        // (2)ソート
         $q_s = $request->input('q.s');
         if($q_s){
-
             // sort dir and sort column
             if( substr( $q_s,-5,5 ) === '_desc' ){
                 $sort_column = substr( $q_s, 0, strlen($q_s)-5 );
@@ -69,23 +66,18 @@ class PostController extends Controller
                 $sort_column = substr( $q_s, 0, strlen($q_s)-4 );
                 $posts = $posts->sortBy($sort_column);
             }
-            
         }else{
             $posts = $posts->sortByDesc('id');
         }
-
-
-
-        // (3)paginate
+        
+        // (3)ページネーション
         $posts = $posts->paginate(10);
 
 		return view('posts.index', compact('posts'));
     }
 
-
-
     /**
-     * Show the form for creating a new resource.
+     * 新しい記事を作成するフォームを表示
      *
      * @return \Illuminate\Http\Response
      */
@@ -94,10 +86,8 @@ class PostController extends Controller
         return view('posts.create')->with( 'lists', Post::getLists() );
     }
 
-
-
     /**
-     * Store a newly created resource in storage.
+     * 新しく作成した記事を保存
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -108,40 +98,36 @@ class PostController extends Controller
 
         $input = $request->input('model');
 
+        // ######### トランザクション開始 #########
         DB::beginTransaction();
-
-
-		//create data
+		// 新しくデータモデルを生成
 		$post = Post::create( $input );
-
         //sync(attach/detach)
         if($request->input('pivots')){
             $this->sync($request->input('pivots'), $post);
         }
-        
         DB::commit();
+        // ######### トランザクション終了 #########
 
 		return redirect()->route('posts.index')->with('message', 'Item created successfully.');
     }
 
-
-
     /**
-     * Display the specified resource.
+     * 記事を表示する
      *
-     * @param  \App\Post  $post     * @return \Illuminate\Http\Response
+     * @param  \App\Post  $post     
+     * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
     {
 		return view('posts.show', compact('post'));
     }
 
-
-
     /**
-     * Show the form for editing the specified resource.
+     * 記事を編集する
      *
-     * @param  \App\Post  $post     * @return \Illuminate\Http\Response
+     * @param  \App\Post  $post     
+     * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
     {
@@ -151,7 +137,7 @@ class PostController extends Controller
 
 
 	/**
-	 * Show the form for duplicatting the specified resource.
+	 * 記事を複製する
 	 *
 	 * @param \App\Post  $post	 * @return \Illuminate\Http\Response
 	 */
@@ -163,7 +149,7 @@ class PostController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * 記事を更新する
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Post  $post     * @return \Illuminate\Http\Response
@@ -174,26 +160,24 @@ class PostController extends Controller
 
         $input = $request->input('model');
 
+        // ######### トランザクション開始 #########
         DB::beginTransaction();
+		// Postモデルの更新
+		$post->update($input);
 
-
-		//update data
-		$post->update( $input );
-
+        // ???
         //sync(attach/detach)
         if($request->input('pivots')){
             $this->sync($request->input('pivots'), $post);
         }
-        
         DB::commit();
+        // ######### トランザクション終了 #########
         
 		return redirect()->route('posts.index')->with('message', 'Item updated successfully.');
     }
 
-
-
     /**
-     * Remove the specified resource from storage.
+     * 記事を削除する
      *
      * @param  \App\Post  $post     * @return \Illuminate\Http\Response
      */
@@ -204,7 +188,7 @@ class PostController extends Controller
     }
 
     /**
-     * Varidate input data.
+     * バリデーションを行う
      *
      * @return array
      */
@@ -214,7 +198,7 @@ class PostController extends Controller
     }
 
     /**
-     * sync pivot data
+     * pivot dataの同期
      *
      * @return void
      */
@@ -229,7 +213,7 @@ class PostController extends Controller
                 }
             }unset($value);
 
-            $method = camel_case( str_plural($pivot_child_model_name) );
+            $method = camel_case(str_plural($pivot_child_model_name));
             $post->$method()->sync($pivots);
         }
     }
