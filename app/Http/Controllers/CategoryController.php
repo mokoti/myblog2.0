@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * カテゴリーの一覧を表示する
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
 		$categories = new Category;
 
-        // (1)filltering
+        // (1)フィルタリング
         if( is_array($request->input('q')) ){
             
             foreach( $request->input('q') as $key => $value ){
@@ -55,9 +55,7 @@ class CategoryController extends Controller
         }
         $categories = $categories->get();
 
-
-
-        // (2)sort
+        // (2)ソート
         $q_s = $request->input('q.s');
         if($q_s){
 
@@ -73,19 +71,15 @@ class CategoryController extends Controller
         }else{
             $categories = $categories->sortByDesc('id');
         }
-
-
-
-        // (3)paginate
+        
+        // (3)ページネーション
         $categories = $categories->paginate(10);
 
 		return view('categories.index', compact('categories'));
     }
 
-
-
     /**
-     * Show the form for creating a new resource.
+     * 新しくカテゴリーを作成するためのフォームを表示する
      *
      * @return \Illuminate\Http\Response
      */
@@ -94,10 +88,8 @@ class CategoryController extends Controller
         return view('categories.create')->with( 'lists', Category::getLists() );
     }
 
-
-
     /**
-     * Store a newly created resource in storage.
+     * 新しく作成したカテゴリーを表示する
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -124,10 +116,8 @@ class CategoryController extends Controller
 		return redirect()->route('categories.index')->with('message', 'Item created successfully.');
     }
 
-
-
     /**
-     * Display the specified resource.
+     * 特定のカテゴリーを表示する
      *
      * @param  \App\Category  $category     * @return \Illuminate\Http\Response
      */
@@ -136,10 +126,8 @@ class CategoryController extends Controller
 		return view('categories.show', compact('category'));
     }
 
-
-
     /**
-     * Show the form for editing the specified resource.
+     * カテゴリーを編集する
      *
      * @param  \App\Category  $category     * @return \Illuminate\Http\Response
      */
@@ -148,10 +136,8 @@ class CategoryController extends Controller
 		return view('categories.edit', compact('category'))->with( 'lists', Category::getLists() );
     }
 
-
-
 	/**
-	 * Show the form for duplicatting the specified resource.
+	 * カテゴリーを複製する
 	 *
 	 * @param \App\Category  $category	 * @return \Illuminate\Http\Response
 	 */
@@ -160,10 +146,8 @@ class CategoryController extends Controller
 		return view('categories.duplicate', compact('category'))->with( 'lists', Category::getLists() );
 	}
 
-
-
     /**
-     * Update the specified resource in storage.
+     * カテゴリーを更新する
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Category  $category     * @return \Illuminate\Http\Response
@@ -171,12 +155,10 @@ class CategoryController extends Controller
     public function update(Category $category, Request $request)
     {
         $this->varidate($request, $category);
-
         $input = $request->input('model');
 
+        ############ トランザクション開始 ############
         DB::beginTransaction();
-
-
 		//update data
 		$category->update( $input );
 
@@ -184,16 +166,14 @@ class CategoryController extends Controller
         if($request->input('pivots')){
             $this->sync($request->input('pivots'), $category);
         }
-        
         DB::commit();
+        ############ トランザクション終了 ############
         
 		return redirect()->route('categories.index')->with('message', 'Item updated successfully.');
     }
 
-
-
     /**
-     * Remove the specified resource from storage.
+     * カテゴリー削除
      *
      * @param  \App\Category  $category     * @return \Illuminate\Http\Response
      */
@@ -204,7 +184,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Varidate input data.
+     * バリデーションを行う
      *
      * @return array
      */
@@ -214,7 +194,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * sync pivot data
+     * pivot dataの同期
      *
      * @return void
      */
