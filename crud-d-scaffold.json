@@ -1,0 +1,238 @@
+{
+  "app_type": "web",
+  "use_laravel_auth": false,
+  "models": [
+    {
+      "id": 1,
+      "name": "post",
+      "display_name": "POST",
+      "use_soft_delete": true,
+      "schemas": [
+        {
+          "id": 1,
+          "name": "title",
+          "display_name": "TITLE",
+          "type": "string",
+          "input_type": "text",
+          "varidate": "",
+          "faker_type": "sentence()",
+          "nullable": false,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 1
+        },
+        {
+          "id": 2,
+          "name": "body",
+          "display_name": "BODY",
+          "type": "string",
+          "input_type": "textarea",
+          "varidate": "",
+          "faker_type": "paragraph()",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": false,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 1
+        },
+        {
+          "id": 3,
+          "name": "category_id",
+          "display_name": "category - NAME",
+          "type": "integer",
+          "input_type": "select",
+          "varidate": "",
+          "faker_type": "numberBetween(1,30)",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "category",
+          "parent_id": 1
+        }
+      ],
+      "is_pivot": false,
+      "schema_id_for_relation": 1,
+      "pos_x": 169,
+      "pos_y": 178,
+      "_next_schema_id": 4
+    },
+    {
+      "id": 2,
+      "name": "tag",
+      "display_name": "TAG",
+      "use_soft_delete": true,
+      "schemas": [
+        {
+          "id": 1,
+          "name": "name",
+          "display_name": "NAME",
+          "type": "string",
+          "input_type": "text",
+          "varidate": "",
+          "faker_type": "word()",
+          "nullable": false,
+          "unique": true,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 2
+        }
+      ],
+      "is_pivot": false,
+      "schema_id_for_relation": 1,
+      "pos_x": 537,
+      "pos_y": 282,
+      "_next_schema_id": 2
+    },
+    {
+      "id": 3,
+      "name": "category",
+      "display_name": "CATEGORY",
+      "use_soft_delete": true,
+      "schemas": [
+        {
+          "id": 1,
+          "name": "name",
+          "display_name": "NAME",
+          "type": "string",
+          "input_type": "text",
+          "varidate": "",
+          "faker_type": "word()",
+          "nullable": false,
+          "unique": true,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 3
+        }
+      ],
+      "is_pivot": false,
+      "schema_id_for_relation": 1,
+      "pos_x": 11,
+      "pos_y": 30,
+      "_next_schema_id": 2
+    },
+    {
+      "id": 4,
+      "name": "comment",
+      "display_name": "COMMENT",
+      "use_soft_delete": true,
+      "schemas": [
+        {
+          "id": 1,
+          "name": "title",
+          "display_name": "TITLE",
+          "type": "string",
+          "input_type": "text",
+          "varidate": "",
+          "faker_type": "sentence()",
+          "nullable": false,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 4
+        },
+        {
+          "id": 2,
+          "name": "body",
+          "display_name": "BODY",
+          "type": "string",
+          "input_type": "textarea",
+          "varidate": "",
+          "faker_type": "paragraph()",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": false,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 4
+        },
+        {
+          "id": 3,
+          "name": "post_id",
+          "display_name": "post - NAME",
+          "type": "integer",
+          "input_type": "select",
+          "varidate": "",
+          "faker_type": "numberBetween(1,30)",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "post",
+          "parent_id": 4
+        }
+      ],
+      "is_pivot": false,
+      "schema_id_for_relation": 1,
+      "pos_x": 297,
+      "pos_y": 488,
+      "_next_schema_id": 4
+    },
+    {
+      "id": 5,
+      "name": "post_tag",
+      "display_name": "PIVOT",
+      "use_soft_delete": true,
+      "schemas": [
+        {
+          "id": 1,
+          "name": "post_id",
+          "display_name": "post - NAME",
+          "type": "integer",
+          "input_type": "select",
+          "varidate": "",
+          "faker_type": "numberBetween(1,30)",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "post",
+          "parent_id": 5
+        },
+        {
+          "id": 2,
+          "name": "tag_id",
+          "display_name": "tag - NAME",
+          "type": "integer",
+          "input_type": "select",
+          "varidate": "",
+          "faker_type": "numberBetween(1,30)",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "tag",
+          "parent_id": 5
+        },
+        {
+          "id": 3,
+          "name": "priority",
+          "display_name": "PRIORITY",
+          "type": "integer",
+          "input_type": "text",
+          "varidate": "",
+          "faker_type": "numberBetween(1,10)",
+          "nullable": true,
+          "unique": false,
+          "show_in_list": true,
+          "show_in_detail": true,
+          "belongsto": "",
+          "parent_id": 5
+        }
+      ],
+      "is_pivot": true,
+      "schema_id_for_relation": 0,
+      "pos_x": 360,
+      "pos_y": 1,
+      "_next_schema_id": 4
+    }
+  ],
+  "tool": "ER-DIAGRAM-TOOL",
+  "_next_model_id": 6
+}
