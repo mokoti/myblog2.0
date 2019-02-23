@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "66ca7343889332c2b8ecca11c251430c",
+    "content-hash": "a2b12c48a2ade9d848907f1d4d0d3efc",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -159,6 +159,63 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "dog-ears/crud-d-scaffold",
+            "version": "3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dog-ears/crud-d-scaffold.git",
+                "reference": "15b2c8009cd5fa99a32eb94ef5241ca9f120da29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dog-ears/crud-d-scaffold/zipball/15b2c8009cd5fa99a32eb94ef5241ca9f120da29",
+                "reference": "15b2c8009cd5fa99a32eb94ef5241ca9f120da29",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "laravel/framework": ">=5.6.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "6.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "dogears\\CrudDscaffold\\GeneratorsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dogears\\CrudDscaffold\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "dog-ears",
+                    "email": "info@dog-ears.com"
+                }
+            ],
+            "description": "Extend Laravel 5.6's generators scaffold.",
+            "homepage": "http://dog-ears.net/",
+            "keywords": [
+                "crud",
+                "generators",
+                "laravel",
+                "laravel5.6",
+                "scaffold"
+            ],
+            "time": "2018-09-27T06:32:16+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
